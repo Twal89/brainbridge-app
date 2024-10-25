@@ -87,16 +87,26 @@
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
-                    body: JSON.stringify({ name, age, question })
+                    body: JSON.stringify({ 
+                        name: name,
+                        age: age, 
+                        question: question 
+                    })
                 });
                 
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 const data = await response.json();
+                console.log('Réponse reçue:', data); // Pour le débogage
                 document.getElementById('responseText').textContent = data.explanation;
                 document.getElementById('response').classList.remove('hidden');
             } catch (error) {
-                console.error('Error:', error);
-                alert('Une erreur est survenue. Veuillez réessayer.');
+                console.error('Error details:', error);
+                alert('Une erreur est survenue : ' + error.message);
             }
         });
     </script>
